@@ -20,12 +20,12 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
-            position: relative; /* Needed for positioning the main wrapper absolutely */
+            position: relative; 
         }
 
         /* --- Main Wrapper for the Iframe and Button (Fixed to Bottom) --- */
         #main-wrapper {
-            position: absolute; /* Fixes wrapper to the body */
+            position: absolute;
             bottom: 0;
             width: 100%;
             text-align: center; /* Centers items inside the wrapper */
@@ -39,62 +39,77 @@
             color: white;
             border: none;
             border-radius: 5px 5px 0 0;
-            z-index: 10; /* Ensures button is above other content */
-            /* The button sits naturally in the flow of the wrapper */
+            z-index: 10;
+            /* Ensure good contrast for accessibility (example color choice) */
+        }
+        
+        /* Add focus style for keyboard navigation accessibility */
+        #toggle-button:focus-visible {
+            outline: 2px solid dodgerblue; 
+            outline-offset: 2px;
         }
 
         /* --- Iframe Container Styles --- */
         #iframe-container {
-            width: 80%; /* Adjust iframe width as needed */
-            height: 50vh; /* Adjust iframe max height as needed */
-            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-            margin: 0 auto; /* Centers the container within the wrapper */
+            width: 80%; 
+            height: 50vh; 
+            background-color: rgba(255, 255, 255, 0.9); 
+            margin: 0 auto; 
             overflow: hidden; 
             
             /* CSS Transition properties */
-            transform: translateY(100%); /* Start completely hidden below its natural position */
-            transition: transform 0.5s ease-out; /* Smooth sliding animation */
+            transform: translateY(100%); 
+            transition: transform 0.5s ease-out; 
+
+            /* Performance hint for the browser */
+            will-change: transform;
         }
 
         /* Class added by JavaScript to make it visible */
         #iframe-container.is-visible {
-            transform: translateY(0); /* Slide up to its visible position */
+            transform: translateY(0); 
         }
 
         /* --- Iframe Element Styles --- */
         #content-frame {
             width: 100%;
             height: 100%;
-            border: none; /* Remove default iframe border */
-            /* Replace 'https://example.com' with your target URL */
-            src: "https://your-actual-iframe-url.com";
+            border: none; 
         }
     </style>
 </head>
 <body>
 
     <div id="main-wrapper">
-        <button id="toggle-button" onclick="toggleIframe()">Show Iframe</button>
+        <!-- Added ARIA attributes for accessibility -->
+        <button id="toggle-button" onclick="toggleIframe()" aria-expanded="false" aria-controls="iframe-container">
+            Show Iframe
+        </button>
 
         <div id="iframe-container">
-            <!-- Iframe content goes here -->
-            <iframe id="content-frame" title="External Content"></iframe>
+            <!-- Iframe content goes here. Replace the src with your actual URL. -->
+            <iframe id="content-frame" src="https://example.com" title="External Content Frame"></iframe>
         </div>
     </div>
 
     <script>
-        // JavaScript function to handle the toggle
+        // JavaScript function to handle the toggle action
         function toggleIframe() {
             const container = document.getElementById('iframe-container');
             const button = document.getElementById('toggle-button');
             
+            // Toggle the visibility class
             container.classList.toggle('is-visible');
 
-            // Change button text based on visibility state
-            if (container.classList.contains('is-visible')) {
+            // Update button text and ARIA attributes based on the new state
+            const isVisible = container.classList.contains('is-visible');
+            
+            if (isVisible) {
                 button.textContent = 'Hide Iframe';
+                button.setAttribute('aria-expanded', 'true');
             } else {
                 button.textContent = 'Show Iframe';
+                button.setAttribute('aria-expanded', 'false');
             }
         }
     </script>
