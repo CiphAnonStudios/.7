@@ -5,36 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Full Screen Background with Sliding Iframe</title>
     <style>
-        /* --- Background Styles (from previous request) --- */
+        /* --- General Reset and Full-Screen Background Styles --- */
         html, body {
             height: 100%;
             width: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; 
+            overflow: hidden; /* No scrolling allowed */
         }
 
         body {
+            /* Replace with your image path/URL */
             background-image: url('./asset/background.png'); 
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;
-            display: flex;
-            justify-content: center; /* Center content horizontally */
-            align-items: flex-end; /* Align content to the bottom */
+            position: relative; /* Needed for positioning the main wrapper absolutely */
         }
 
-        /* --- Iframe Container and Button Styles --- */
+        /* --- Main Wrapper for the Iframe and Button (Fixed to Bottom) --- */
+        #main-wrapper {
+            position: absolute; /* Fixes wrapper to the body */
+            bottom: 0;
+            width: 100%;
+            text-align: center; /* Centers items inside the wrapper */
+        }
+
+        /* --- Button Styles (Always visible) --- */
+        #toggle-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            z-index: 10; /* Ensures button is above other content */
+            /* The button sits naturally in the flow of the wrapper */
+        }
+
+        /* --- Iframe Container Styles --- */
         #iframe-container {
-            width: 80%; /* Adjust width as needed */
-            height: 50vh; /* Adjust height as needed (e.g., 50% of viewport height) */
+            width: 80%; /* Adjust iframe width as needed */
+            height: 50vh; /* Adjust iframe max height as needed */
             background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-            position: relative; /* Needed for positioning child elements */
-            overflow: hidden; /* Hides content that slides out of view */
+            margin: 0 auto; /* Centers the container within the wrapper */
+            overflow: hidden; 
             
             /* CSS Transition properties */
-            transform: translateY(100%); /* Start completely hidden below the screen */
-            transition: transform 0.5s ease-out; /* Smooth sliding animation over 0.5s */
+            transform: translateY(100%); /* Start completely hidden below its natural position */
+            transition: transform 0.5s ease-out; /* Smooth sliding animation */
         }
 
         /* Class added by JavaScript to make it visible */
@@ -42,34 +61,25 @@
             transform: translateY(0); /* Slide up to its visible position */
         }
 
+        /* --- Iframe Element Styles --- */
         #content-frame {
             width: 100%;
-            height: calc(100% - 40px); /* Iframe fills container minus button height */
+            height: 100%;
             border: none; /* Remove default iframe border */
-        }
-
-        /* --- Button Styles --- */
-        #toggle-button {
-            position: absolute;
-            bottom: 100%; /* Position button right above the container */
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #333;
-            color: white;
-            border: none;
-            border-radius: 5px 5px 0 0;
-            z-index: 10; /* Ensure button is above other content */
+            /* Replace 'https://example.com' with your target URL */
+            src: "https://your-actual-iframe-url.com";
         }
     </style>
 </head>
 <body>
 
-    <button id="toggle-button" onclick="toggleIframe()">Show Iframe</button>
+    <div id="main-wrapper">
+        <button id="toggle-button" onclick="toggleIframe()">Show Iframe</button>
 
-    <div id="iframe-container">
-        <iframe id="content-frame" src="https://example.com" title="External Content"></iframe>
+        <div id="iframe-container">
+            <!-- Iframe content goes here -->
+            <iframe id="content-frame" title="External Content"></iframe>
+        </div>
     </div>
 
     <script>
@@ -87,11 +97,6 @@
                 button.textContent = 'Show Iframe';
             }
         }
-
-        // Optional: Make the container visible by default on load if desired
-        // document.addEventListener('DOMContentLoaded', (event) => {
-        //     toggleIframe(); 
-        // });
     </script>
 </body>
 </html>
