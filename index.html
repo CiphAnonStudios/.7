@@ -102,36 +102,46 @@
             font-size: 12px;
         }
 
-        .move-container {
-    position: relative; /* Allows movement relative to its original position */
-    cursor: pointer;
-    display: inline-flex; /* Aligns image and text horizontally */
-    align-items: center;
-    padding: 10px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    transition: left 0.5s ease; /* Smooth transition for the 'left' property */
-    left: 0; /* Default position (left) */
-    width: 200px; /* Adjust width as needed */
-    text-align: center;
-}
+          .move-container {
+        position: relative; 
+        cursor: pointer;
+        display: flex; /* Use flexbox to center the text label */
+        align-items: center;
+        justify-content: center; /* Center the text horizontally */
+        padding: 0; /* Remove padding to allow image to cover edges */
+        /* background-color: #f0f0f0;  <-- Remove this */
+        border: 1px solid #ccc;
+        transition: left 0.5s ease; 
+        left: 0; 
+        width: 200px; 
+        /* height: 100px; <-- Added via inline style in HTML for quick fix */
+        text-align: center;
+
+        /* Add the background image properties */
+        background-image: url('./asset/blooketcheats1.png');
+        background-size: cover; /* This makes the image fill the entire div */
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
 .move-image {
- /* width: 50px;
-    height: 50px; */
-    margin-right: 10px;
-    object-fit: cover;
-}
+        /* Hide the <img> tag now that the background is handling the visual */
+        display: none; 
+    }
 
-.move-text {
-    font-size: 16px;
-    color: #333;
-}
+  .move-text {
+        font-size: 16px;
+        /* Make the text readable over any image */
+        color: white; 
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 5px 10px;
+        border-radius: 4px;
+    }
 
 /* Class to be added/removed by JavaScript */
-.move-right {
-    left: 100px; /* Moves the element 100px to the right when this class is active */
-}
+   .move-right {
+        left: 100px;
+    }
 
     </style>
 </head>
@@ -156,7 +166,8 @@
         <img src="./asset/iframeimage2.png" alt="Floating decor 2" class="decor-image" id="decor-image-2">
     </div>
 
-<div class="move-container" onclick="toggleMovement()">
+ <div class="move-container" onclick="toggleMovement()" style="height: 100px;">
+        <!-- The img tag remains but will be hidden by CSS -->
         <img src="./asset/blooketcheats1.png" alt="placeholder image" class="move-image">
         <span class="move-text">Click to Move</span>
     </div>
